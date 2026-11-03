@@ -70,10 +70,11 @@ for key,desc in [('name="description"','Богдан Ухаботов — сту
     pattern=rf'(<meta\s+{re.escape(key)}\s+content=")[^"]*(")'
     if re.search(pattern,s,re.S|re.I):
         swap(pattern,lambda m:m[1]+html.escape(desc,quote=True)+m[2],"meta "+key)
-# Normalize whitespace-only lines only within the edited Education section.
+# Remove whitespace-only lines from the changed education block.
 start=s.index('data-panel="education"')
 end=s.index('</section>', start)
-s=s[:start]+re.sub(r'(?m)^[ \\t]+
+s=s[:start]+re.sub(r'(?m)^[ \t]+$', '', s[start:end])+s[end:]
+# Verify all changes before writing.
 assert s!=old and 'SQL · базовый' in s and 'mailto:'+email in s
 assert '<img' not in re.search(r'<article class="education-item education-item--diploma".*?</article>',s,re.S)[0]
 p.write_text(s,encoding="utf-8")
