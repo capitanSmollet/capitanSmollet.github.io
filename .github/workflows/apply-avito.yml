@@ -1,0 +1,45 @@
+name: Apply Avito portfolio text update
+on:
+  push:
+    paths:
+      - '.github/workflows/apply-avito.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout current site
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Check and update copy
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp index.html index.before-avito.local.html
+          python3 scripts/apply_avito_update.py
+          git diff --check
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          x=Path('index.html').read_text()
+          assert 'SQL · базовый' in x
+          assert 'brukhabotov@edu.hse.ru' in x
+          assert 'АДЫГЕЙСКИЙ ГОСУДАРСТВЕННЫЙ УНИВЕРСИТЕТ' in x
+          assert 'diploma-agu-public.webp' not in x
+          print('Content verification passed')
+          PY
+          rm index.before-avito.local.html
+      - name: Publish checked HTML change
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          if ! git diff --cached --quiet; then
+            git commit -m "feat: tailor portfolio content for Avito Product Analyst internship"
+            git push
+          fi
