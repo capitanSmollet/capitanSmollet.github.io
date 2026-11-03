@@ -1,0 +1,38 @@
+name: Publish approved portfolio wording
+on:
+  push:
+    paths:
+      - '.github/workflows/revise-portfolio-text.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout current repository
+        uses: actions/checkout@v4
+      - name: Check exact content changes
+        run: |
+          set -euo pipefail
+          python3 scripts/revise_portfolio_text_2026.py
+          git diff --check
+          python3 - <<'PY'
+          from pathlib import Path
+          s=Path('index.html').read_text(encoding='utf-8')
+          assert 'Характер спокойный. Любознательный. Не женат.' in s
+          assert 'Открыт к новому опыту! Для связи — учебная почта!' in s
+          assert 'Уровни навыков не преувеличены: портфолио растёт вместе с опытом.' not in s
+          assert 'mailto:brukhabotov@edu.hse.ru' in s
+          print('Verified all three changes')
+          PY
+      - name: Commit approved text corrections
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          if ! git diff --cached --quiet; then
+            git commit -m "fix: update About, Skills and Contacts wording"
+            git push
+          fi
