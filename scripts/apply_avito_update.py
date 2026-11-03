@@ -79,9 +79,3 @@ assert s!=old and 'SQL · базовый' in s and 'mailto:'+email in s
 assert '<img' not in re.search(r'<article class="education-item education-item--diploma".*?</article>',s,re.S)[0]
 p.write_text(s,encoding="utf-8")
 print("Updated sections:",", ".join(changes),"bytes:",len(old.encode()),"->",len(s.encode()))
-, '', s[start:end])+s[end:]
-# Verify all changes before writing.
-assert s!=old and 'SQL · базовый' in s and 'mailto:'+email in s
-assert '<img' not in re.search(r'<article class="education-item education-item--diploma".*?</article>',s,re.S)[0]
-p.write_text(s,encoding="utf-8")
-print("Updated sections:",", ".join(changes),"bytes:",len(old.encode()),"->",len(s.encode()))
