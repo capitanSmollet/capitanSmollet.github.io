@@ -175,44 +175,6 @@ code {font-family:inherit;}
 .audio-controls .sound-toggle,.music-toggle {position:static;right:auto;bottom:auto;background:#e7ca91;color:#24180d;border:2px solid #342113;border-radius:2px;padding:5px 13px;box-shadow:2px 3px #382416;font:700 21px Captain;cursor:pointer;}
 .mobile-layout>.audio-controls {position:relative;justify-content:center;margin:12px auto;right:auto;bottom:auto;}
 
-/* About: the old paragraph was embedded in the original illustration.
-   Place a parchment panel ONLY over its lower text area, leaving portraits untouched.
-   The panel contains the current, editable HTML text. */
-#desktop-main #about-desktop.about-patched {
-  display:block;
-  position:absolute;
-  top:47.2%;
-  left:6.5%;
-  width:87.2%;
-  height:33.6%;
-  z-index:5;
-  overflow:hidden;
-  padding:1.9cqw 2.0cqw;
-  border:0;
-  box-shadow:none;
-  border-radius:0;
-  background:
-    repeating-linear-gradient(90deg,transparent 0 16.1cqw,rgba(128,103,63,.075) 16.1cqw 16.2cqw),
-    repeating-linear-gradient(0deg,transparent 0 6.8cqw,rgba(128,103,63,.07) 6.8cqw 6.9cqw),
-    linear-gradient(110deg,#f0dfb9,#efddb3 60%,#ecdaad);
-  -webkit-mask-image:linear-gradient(to bottom,transparent 0,black 3%,black 96%,transparent 100%);
-  mask-image:linear-gradient(to bottom,transparent 0,black 3%,black 96%,transparent 100%);
-  animation:none;
-}
-#desktop-main #about-desktop.about-patched .about-main-copy {
-  margin:0;
-  padding:.3cqw 0;
-  font-family:Captain,Impact,"Arial Narrow",sans-serif;
-  font-size:2.05cqw;
-  font-weight:400;
-  line-height:1.23;
-  text-transform:uppercase;
-  color:#1e1710;
-  letter-spacing:.01em;
-  text-shadow:none;
-  overflow-wrap:break-word;
-}
-
 </style>
 </head>
 <body>
@@ -226,7 +188,10 @@ code {font-family:inherit;}
       <a class="navlink" href="#contacts" data-page="contacts" data-label="КОНТАКТЫ" aria-label="Контакты">Контакты</a>
     </nav>
     <main id="desktop-main">
-      <section class="sheet about-visible about-patched" id="about-desktop" data-panel="about" aria-label="Обо мне"><p class="about-main-copy">Студент магистратуры НИУ ВШЭ, программа «Машинное обучение и анализ данных». Интересуюсь математической статистикой, анализом данных и ML. Развиваюсь в Python, участвую в командных проектах и хочу применять свои знания для решения реальных продуктовых задач. Характер спокойный. Любознательный. Не женат.</p></section>
+      <section class="screen-reader-only" id="about-desktop" data-panel="about" aria-label="Обо мне">
+        <h1>Капитан Смоллет — Богдан, магистр ВШЭ Санкт-Петербург</h1>
+        <p>Программист в процессе становления. Люблю математику, машинное обучение и хорошие задачи. Умею разбираться в сложном, доводить дела до конца и работать в команде. Характер спокойный, любознательный.</p>
+      </section>
       <section class="sheet" data-panel="education" hidden aria-labelledby="education-title">
         <p class="sheet-kicker">ЛИЧНОЕ ДЕЛО / ЛИСТ II</p>
         <h1 id="education-title">ШКОЛА МОРЕПЛАВАНИЯ</h1>
@@ -304,7 +269,7 @@ code {font-family:inherit;}
         <p class="sheet-kicker">ЛИЧНОЕ ДЕЛО / ЛИСТ I</p>
         <div class="portrait-pair" role="img" aria-label="Два портрета Богдана — анфас и в профиль"></div>
         <h1>БОГДАН УХАБОТОВ</h1>
-        <p class="brief" style="font:600 1.12rem/1.48 Arial,sans-serif;text-transform:none">Студент магистратуры НИУ ВШЭ, программа „Машинное обучение и анализ данных“. Интересуюсь математической статистикой, анализом данных и ML. Развиваюсь в Python, участвую в командных проектах и хочу применять свои знания для решения реальных продуктовых задач. Характер спокойный. Любознательный. Не женат.</p>
+        <p class="brief">МАГИСТР ВШЭ СПБ, ПРОГРАММИСТ (В ПРОЦЕССЕ СТАНОВЛЕНИЯ).<br>ЛЮБЛЮ МАТЕМАТИКУ, ML И ХОРОШИЕ ЗАДАЧИ.<br>УМЕЮ РАЗБИРАТЬСЯ В СЛОЖНОМ, ДОВОДИТЬ ДЕЛА ДО КОНЦА И РАБОТАТЬ В КОМАНДЕ.<br>ХАРАКТЕР СПОКОЙНЫЙ, ЛЮБОЗНАТЕЛЬНЫЙ.<br>НЕ ЖЕНАТ.</p>
       </section>
       <section class="panel" data-panel="education" hidden aria-label="Образование"></section>
       <section class="panel" data-panel="skills" hidden aria-label="Навыки"></section>
