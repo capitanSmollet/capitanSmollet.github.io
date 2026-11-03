@@ -3,6 +3,7 @@ on:
   push:
     paths:
       - '.github/workflows/apply-avito.yml'
+      - 'scripts/apply_avito_update.py'
   workflow_dispatch:
 permissions:
   contents: write
