@@ -1,0 +1,39 @@
+name: Restore original About section
+on:
+  push:
+    paths:
+      - '.github/workflows/restore-about-original.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  restore:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Restore original About and verify
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/restore_about_original_2026.py
+          git diff --check
+          python3 - <<'PY'
+          from pathlib import Path
+          s=Path('index.html').read_text(encoding='utf-8')
+          assert 'class="screen-reader-only" id="about-desktop"' in s
+          assert 'about-patched' not in s
+          assert 'МАГИСТР ВШЭ СПБ, ПРОГРАММИСТ' in s
+          assert 'Открыт к новому опыту! Для связи — учебная почта!' in s
+          print('Original About restored, other changes preserved')
+          PY
+      - name: Publish restored section
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          if ! git diff --cached --quiet; then
+            git commit -m "revert: restore original About layout and text only"
+            git push
+          fi
