@@ -27,7 +27,7 @@ swap(r'(<p\s+class="brief">).*?(</p>)',lambda m:m[1]+mobile+m[2],"About mobile")
 def education(t):
     if 'data-avito-diploma=' in t:
         return single(t,r'<article class="education-item education-item--diploma" data-avito-diploma="true">.*?</article>',lambda m:card.strip(),"Remove diploma picture")
-    return single(t,r'(?=<article\s+class="education-item"[^>]*>\s*<span[^>]*>[^<]*БАКАЛАВРИАТ)',lambda m:card+"\n        ","AGU education")
+    return single(t,r'(?=<article\s+class="education-item"[^>]*>\s*<span[^>]*>[^<]*БАКАЛАВРИАТ)',lambda m:card+"\n","AGU education")
 card='''\n        <article class="education-item education-item--diploma" data-avito-diploma="true">
           <span class="eyebrow">2026 · ПРОФЕССИОНАЛЬНАЯ ПЕРЕПОДГОТОВКА</span>
           <h2>АДЫГЕЙСКИЙ ГОСУДАРСТВЕННЫЙ УНИВЕРСИТЕТ</h2>
