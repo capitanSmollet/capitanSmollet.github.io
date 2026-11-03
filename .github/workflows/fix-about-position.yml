@@ -1,0 +1,39 @@
+name: Correct About layout below photos
+on:
+  push:
+    paths:
+      - '.github/workflows/fix-about-position.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply and verify About layout
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/fix_about_position.py
+          git diff --check
+          python3 - <<'PY'
+          from pathlib import Path
+          s=Path('index.html').read_text(encoding='utf-8')
+          assert '#desktop-main #about-desktop.about-patched' in s
+          assert 'top:47.2%' in s
+          assert 'class="sheet about-visible about-patched"' in s
+          assert 'Характер спокойный. Любознательный. Не женат.' in s
+          print('About layout changes verified')
+          PY
+      - name: Commit to main
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          if ! git diff --cached --quiet; then
+            git commit -m "fix: move About text beneath portraits and cover outdated embedded copy"
+            git push
+          fi
